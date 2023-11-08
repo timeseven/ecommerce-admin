@@ -1,5 +1,6 @@
-import { useStoreModalStore } from "@/lib/interface";
 import { create } from "zustand";
+
+import { useStoreModalStore } from "@/lib/interface";
 
 export const useStoreModal = create<useStoreModalStore>((set) => ({
   isOpen: false,
