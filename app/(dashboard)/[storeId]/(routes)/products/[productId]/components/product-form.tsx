@@ -72,8 +72,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
       router.refresh();
       router.push(`/${params.storeId}/products`);
       toast.success(toastMessage);
-    } catch (error) {
-      toast.error("Something went wrong.");
+    } catch (error: any) {
+      toast.error(error?.response?.data || "Something went wrong.");
     } finally {
       setLoading(false);
     }

@@ -1,10 +1,10 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 import { ProductColumn } from "@/lib/interface";
 
 import { CellAction } from "./cell-action";
+import { CheckCircle2, XCircle } from "lucide-react";
 
 export const columns: ColumnDef<ProductColumn>[] = [
   {
@@ -16,11 +16,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Archived",
     cell: ({ row }) => (
       <div className="flex items-center ml-5">
-        {row.original.isArchived ? (
-          <AiFillCheckCircle className="h-4 w-4 fill-green-600" />
-        ) : (
-          <AiFillCloseCircle className="h-4 w-4 fill-red-600" />
-        )}
+        {row.original.isArchived ? <CheckCircle2 className="text-green-500" /> : <XCircle className="text-red-500" />}
       </div>
     ),
   },
@@ -29,11 +25,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Featured",
     cell: ({ row }) => (
       <div className="flex items-center ml-5">
-        {row.original.isFeatured ? (
-          <AiFillCheckCircle className="h-4 w-4 fill-green-600" />
-        ) : (
-          <AiFillCloseCircle className="h-4 w-4 fill-red-600" />
-        )}
+        {row.original.isFeatured ? <CheckCircle2 className="text-green-500" /> : <XCircle className="text-red-500" />}
       </div>
     ),
   },

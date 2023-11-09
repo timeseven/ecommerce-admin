@@ -1,8 +1,8 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 import { OrderColumn } from "@/lib/interface";
+import { CheckCircle2, XCircle } from "lucide-react";
 
 export const columns: ColumnDef<OrderColumn>[] = [
   {
@@ -26,11 +26,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Paid",
     cell: ({ row }) => (
       <div className="flex items-center ml-5">
-        {row.original.isPaid ? (
-          <AiFillCheckCircle className="h-4 w-4 fill-green-600" />
-        ) : (
-          <AiFillCloseCircle className="h-4 w-4 fill-red-600" />
-        )}
+        {row.original.isPaid ? <CheckCircle2 className="text-green-500" /> : <XCircle className="text-red-500" />}
       </div>
     ),
   },

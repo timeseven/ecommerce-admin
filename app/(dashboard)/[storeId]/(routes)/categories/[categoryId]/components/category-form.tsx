@@ -53,8 +53,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ billboards, initialD
       router.refresh();
       router.push(`/${params.storeId}/categories`);
       toast.success(toastMessage);
-    } catch (error) {
-      toast.error("Something went wrong.");
+    } catch (error: any) {
+      toast.error(error?.response?.data || "Something went wrong.");
     } finally {
       setLoading(false);
     }
