@@ -1,4 +1,4 @@
-import { Billboard, Category, Size, Store } from "@prisma/client";
+import { Billboard, Category, Color, Image, OrderItem, Product, Size, Store } from "@prisma/client";
 
 import { PopoverTrigger } from "@/components/ui/popover";
 
@@ -95,7 +95,71 @@ export interface SizeCellActionProps {
   data: SizeColumn;
 }
 
-// Size Component Props
+// Color Props
+export interface ColorFormProps {
+  initialData: Color | null;
+}
+
+export interface ColorColumn {
+  id: string;
+  name: string;
+  value: string;
+  createdAt: string;
+}
+
+export interface ColorClientProps {
+  data: ColorColumn[];
+}
+
+export interface ColorCellActionProps {
+  data: ColorColumn;
+}
+
+// Product Props
+export interface ProductFormProps {
+  initialData: (Product & { images: Image[] }) | null;
+  categories: Category[];
+  colors: Color[];
+  sizes: Size[];
+}
+
+export interface ProductColumn {
+  id: string;
+  name: string;
+  isFeatured: boolean;
+  isArchived: boolean;
+  price: string;
+  category: string;
+  size: string;
+  color: string;
+  createdAt: string;
+}
+
+export interface ProductClientProps {
+  data: ProductColumn[];
+}
+
+export interface ProductCellActionProps {
+  data: ProductColumn;
+}
+
+// Order Props
+export interface OrderColumn {
+  id: string;
+  isPaid: boolean;
+  phone: string;
+  address: string;
+  totalPrice: string;
+  products: string;
+}
+
+export interface OrderClientProps {
+  data: OrderColumn[];
+}
+
+export interface OrderCellActionProps {
+  data: OrderColumn;
+}
 
 // Public Components Props
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
