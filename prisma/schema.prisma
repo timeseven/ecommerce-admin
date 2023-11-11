@@ -39,10 +39,13 @@ model Billboard {
 
 model Category {
   id          String @id @default(uuid())
+  parentId    String?
+  parent      Category? @relation("CategoryChildren", fields:[parentId], references:[id], onDelete: NoAction, onUpdate: NoAction) 
+  children    Category[] @relation("CategoryChildren")
   storeId     String
   store       Store @relation("StoreToCategory", fields: [storeId], references: [id])
-  billboardId String
-  billboard   Billboard @relation(fields: [billboardId], references: [id])
+  billboardId String?
+  billboard   Billboard? @relation(fields: [billboardId], references: [id])
   products    Product[] @relation("CategoryToProduct")
   name        String
   createdAt   DateTime @default(now())
@@ -50,6 +53,7 @@ model Category {
 
   @@index([storeId])
   @@index([billboardId])
+  @@index([parentId])
 }
 
 model Size {

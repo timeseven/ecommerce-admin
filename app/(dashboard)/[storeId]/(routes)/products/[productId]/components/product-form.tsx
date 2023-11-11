@@ -26,8 +26,8 @@ const formSchema = z.object({
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
-  colorId: z.string().min(1),
-  sizeId: z.string().min(1),
+  colorId: z.string().optional(),
+  sizeId: z.string().optional(),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
 });
@@ -175,7 +175,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
                       <SelectContent>
                         {categories.map((category) => (
                           <SelectItem key={category.id} value={category.id}>
-                            {category.name}
+                            {category!.parent!.name + "-" + category.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -185,7 +185,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="colorId"
               render={({ field }) => (
@@ -215,8 +215,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
                   <FormMessage />
                 </FormItem>
               )}
-            />
-            <FormField
+            /> */}
+            {/* <FormField
               control={form.control}
               name="sizeId"
               render={({ field }) => (
@@ -246,7 +246,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name="isFeatured"

@@ -16,8 +16,8 @@ export async function GET(req: Request, { params }: { params: { productId: strin
       include: {
         images: true,
         category: true,
-        size: true,
-        color: true,
+        // size: true,
+        // color: true,
       },
     });
 
@@ -55,13 +55,13 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
       return new NextResponse("Category Id is required", { status: 400 });
     }
 
-    if (!colorId) {
-      return new NextResponse("Color Id is required", { status: 400 });
-    }
+    // if (!colorId) {
+    //   return new NextResponse("Color Id is required", { status: 400 });
+    // }
 
-    if (!sizeId) {
-      return new NextResponse("Size Id is required", { status: 400 });
-    }
+    // if (!sizeId) {
+    //   return new NextResponse("Size Id is required", { status: 400 });
+    // }
 
     if (!params.storeId) {
       return new NextResponse("Store id is required", { status: 400 });
@@ -91,8 +91,8 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
         name,
         price,
         categoryId,
-        colorId,
-        sizeId,
+        // colorId,
+        // sizeId,
         isArchived,
         isFeatured,
         storeId: params.storeId,

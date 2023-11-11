@@ -11,6 +11,10 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     header: "Name",
   },
   {
+    accessorKey: "parentName",
+    header: "Parent Category",
+  },
+  {
     accessorKey: "billboard",
     header: "Billboard",
     cell: ({ row }) => row.original.billboardLabel,

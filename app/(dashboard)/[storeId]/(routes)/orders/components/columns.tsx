@@ -25,7 +25,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
     accessorKey: "isPaid",
     header: "Paid",
     cell: ({ row }) => (
-      <div className="flex items-center ml-5">
+      <div className="flex items-center ml-1">
         {row.original.isPaid ? <CheckCircle2 className="text-green-500" /> : <XCircle className="text-red-500" />}
       </div>
     ),

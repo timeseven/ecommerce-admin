@@ -15,10 +15,17 @@ const CategoryPage = async ({ params }: { params: { categoryId: string; storeId:
     },
   });
 
+  const parentCategories = await prismadb.category.findMany({
+    where: {
+      storeId: params.storeId,
+      parentId: "",
+    },
+  });
+
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <CategoryForm billboards={billboards} initialData={category} />
+        <CategoryForm billboards={billboards} parentCategories={parentCategories} initialData={category} />
       </div>
     </div>
   );
