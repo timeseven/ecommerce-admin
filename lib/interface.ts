@@ -193,6 +193,15 @@ export interface ApiListProps {
   entityIdName: string;
 }
 
+export interface OverviewProps {
+  data: any[];
+}
+
+export interface GraphData {
+  name: string;
+  total: number;
+}
+
 // Hooks Props
 export interface useStoreModalStore {
   isOpen: boolean;
