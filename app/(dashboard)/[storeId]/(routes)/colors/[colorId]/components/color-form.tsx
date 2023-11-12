@@ -89,7 +89,6 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
 
   // listen to color picker
   const listenColorPicker = async (e: any) => {
-    console.log("33333", cpVisible, e.target, e.target.compareDocumentPosition(document.getElementById("colorPick")));
     if (cpVisible && e.target.compareDocumentPosition(document.getElementById("colorPick")) !== 10) {
       setCpVisible(false);
       document.removeEventListener("click", listenColorPicker);

@@ -37,6 +37,22 @@ export async function POST(req: Request, { params }: { params: { storeId: string
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
+    // avoid generating duplicate categories with same name and same parent
+    const duplicateCheck = await prismadb.category.findFirst({
+      where: {
+        AND: [
+          {
+            name,
+            parentId,
+          },
+        ],
+      },
+    });
+    console.log(duplicateCheck);
+    if (duplicateCheck) {
+      return new NextResponse("Duplicate category.", { status: 400 });
+    }
+
     const category = await prismadb.category.create({
       data: {
         name,
@@ -55,7 +71,6 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
   try {
-    console.log("1111");
     if (!params.storeId) {
       return new NextResponse("Store id is required", { status: 400 });
     }
