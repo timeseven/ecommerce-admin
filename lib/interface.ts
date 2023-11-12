@@ -132,6 +132,7 @@ export interface ProductColumn {
   isArchived: boolean;
   price: string;
   category: string;
+  description: string;
   // size?: string;
   // color?: string;
   createdAt: string;

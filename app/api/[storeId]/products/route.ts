@@ -8,7 +8,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, images, price, categoryId, colorId, sizeId, isArchived, isFeatured } = body;
+    const { name, images, price, categoryId, colorId, sizeId, description, isArchived, isFeatured } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -28,6 +28,10 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
     if (!categoryId) {
       return new NextResponse("Category Id is required", { status: 400 });
+    }
+
+    if (!description) {
+      return new NextResponse("Description is required", { status: 400 });
     }
 
     // if (!colorId) {
@@ -57,6 +61,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
       data: {
         name,
         price,
+        description,
         categoryId,
         colorId,
         sizeId,
