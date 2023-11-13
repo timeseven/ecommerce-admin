@@ -15,13 +15,15 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 import { BillboardFormProps } from "@/lib/interface";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   label: z.string().min(1),
   imageUrl: z.string().min(1),
+  isFeatured: z.boolean().default(false).optional(),
 });
 
 export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
@@ -38,12 +40,13 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || { label: "", imageUrl: "" },
+    defaultValues: initialData || { label: "", imageUrl: "", isFeatured: false },
   });
 
   // create or update billboard
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      console.log("initialData", initialData);
       setLoading(true);
       if (initialData) {
         await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, values);
@@ -118,6 +121,22 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
                   <FormControl>
                     <Input disabled={loading} placeholder="Billboard label" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isFeatured"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Featured</FormLabel>
+                    <FormDescription>This billboard will appear on the home page</FormDescription>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

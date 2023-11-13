@@ -43,6 +43,7 @@ export interface BillboardFormProps {
 export interface BillboardColumn {
   id: string;
   label: string;
+  isFeatured: boolean;
   createdAt: string;
 }
 

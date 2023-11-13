@@ -8,7 +8,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     const { userId } = auth();
     const body = await req.json();
 
-    const { label, imageUrl } = body;
+    const { label, imageUrl, isFeatured } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -41,6 +41,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
       data: {
         label,
         imageUrl,
+        isFeatured,
         storeId: params.storeId,
       },
     });
