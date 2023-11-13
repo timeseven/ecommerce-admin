@@ -27,7 +27,6 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
         },
       },
     });
-    console.log("orderItem", orders, orders[0].orderItems);
     return NextResponse.json(orders);
   } catch (error) {
     console.log("[ORDERS_GET]", error);
