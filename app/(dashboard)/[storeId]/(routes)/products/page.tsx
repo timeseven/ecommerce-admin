@@ -24,7 +24,7 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
       createdAt: "desc",
     },
   });
-  console.log("product", products);
+
   const formattedProducts: ProductColumn[] = products.map((item) => ({
     id: item.id,
     name: item.name,

@@ -48,7 +48,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         ],
       },
     });
-    console.log(duplicateCheck);
+
     if (duplicateCheck) {
       return new NextResponse("Duplicate category.", { status: 400 });
     }
@@ -84,7 +84,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
         children: true,
       },
     });
-    console.log("categories", categories);
+
     return NextResponse.json(categories);
   } catch (error) {
     console.log("[CATEGORIES_GET]", error);
