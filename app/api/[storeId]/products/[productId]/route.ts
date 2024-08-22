@@ -16,8 +16,8 @@ export async function GET(req: Request, { params }: { params: { productId: strin
       include: {
         images: true,
         category: true,
-        size: true,
-        color: true,
+        // size: true,
+        // color: true,
       },
     });
 
@@ -33,7 +33,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, images, price, categoryId, colorId, sizeId, isArchived, isFeatured } = body;
+    const { name, images, price, categoryId, description, isArchived, isFeatured } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -55,13 +55,17 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
       return new NextResponse("Category Id is required", { status: 400 });
     }
 
-    if (!colorId) {
-      return new NextResponse("Color Id is required", { status: 400 });
+    if (!description) {
+      return new NextResponse("Category Id is required", { status: 400 });
     }
 
-    if (!sizeId) {
-      return new NextResponse("Size Id is required", { status: 400 });
-    }
+    // if (!colorId) {
+    //   return new NextResponse("Color Id is required", { status: 400 });
+    // }
+
+    // if (!sizeId) {
+    //   return new NextResponse("Size Id is required", { status: 400 });
+    // }
 
     if (!params.storeId) {
       return new NextResponse("Store id is required", { status: 400 });
@@ -90,9 +94,10 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
       data: {
         name,
         price,
+        description,
         categoryId,
-        colorId,
-        sizeId,
+        // colorId,
+        // sizeId,
         isArchived,
         isFeatured,
         storeId: params.storeId,

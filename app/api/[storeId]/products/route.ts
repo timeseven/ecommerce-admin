@@ -8,7 +8,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, images, price, categoryId, colorId, sizeId, isArchived, isFeatured } = body;
+    const { name, images, price, categoryId, colorId, sizeId, description, isArchived, isFeatured } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -30,13 +30,17 @@ export async function POST(req: Request, { params }: { params: { storeId: string
       return new NextResponse("Category Id is required", { status: 400 });
     }
 
-    if (!colorId) {
-      return new NextResponse("Color Id is required", { status: 400 });
+    if (!description) {
+      return new NextResponse("Description is required", { status: 400 });
     }
 
-    if (!sizeId) {
-      return new NextResponse("Size Id is required", { status: 400 });
-    }
+    // if (!colorId) {
+    //   return new NextResponse("Color Id is required", { status: 400 });
+    // }
+
+    // if (!sizeId) {
+    //   return new NextResponse("Size Id is required", { status: 400 });
+    // }
 
     if (!params.storeId) {
       return new NextResponse("Store id is required", { status: 400 });
@@ -57,6 +61,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
       data: {
         name,
         price,
+        description,
         categoryId,
         colorId,
         sizeId,
@@ -82,8 +87,8 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
   try {
     const { searchParams } = new URL(req.url);
     const categoryId = searchParams.get("categoryId") || undefined;
-    const colorId = searchParams.get("colorId") || undefined;
-    const sizeId = searchParams.get("sizeId") || undefined;
+    // const colorId = searchParams.get("colorId") || undefined;
+    // const sizeId = searchParams.get("sizeId") || undefined;
     const isFeatured = searchParams.get("isFeatured");
 
     if (!params.storeId) {
@@ -94,16 +99,16 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
       where: {
         storeId: params.storeId,
         categoryId,
-        colorId,
-        sizeId,
+        // colorId,
+        // sizeId,
         isFeatured: isFeatured ? true : undefined,
         isArchived: false,
       },
       include: {
         images: true,
         category: true,
-        color: true,
-        size: true,
+        // color: true,
+        // size: true,
       },
     });
 

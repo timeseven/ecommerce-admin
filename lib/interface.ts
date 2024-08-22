@@ -43,6 +43,7 @@ export interface BillboardFormProps {
 export interface BillboardColumn {
   id: string;
   label: string;
+  isFeatured: boolean;
   createdAt: string;
 }
 
@@ -58,12 +59,14 @@ export interface BillboardCellActionProps {
 export interface CategoryFormProps {
   initialData: Category | null;
   billboards: Billboard[];
+  parentCategories: Category[];
 }
 
 export interface CategoryColumn {
   id: string;
   name: string;
-  billboardLabel: string;
+  parentName: string | null;
+  billboardLabel: string | null;
   createdAt: string;
 }
 
@@ -118,7 +121,7 @@ export interface ColorCellActionProps {
 // Product Props
 export interface ProductFormProps {
   initialData: (Product & { images: Image[] }) | null;
-  categories: Category[];
+  categories: (Category & { parent: Category | null })[];
   colors: Color[];
   sizes: Size[];
 }
@@ -130,8 +133,9 @@ export interface ProductColumn {
   isArchived: boolean;
   price: string;
   category: string;
-  size: string;
-  color: string;
+  description: string;
+  // size?: string;
+  // color?: string;
   createdAt: string;
 }
 
@@ -188,6 +192,15 @@ export interface ImageUploadProps {
 export interface ApiListProps {
   entityName: string;
   entityIdName: string;
+}
+
+export interface OverviewProps {
+  data: any[];
+}
+
+export interface GraphData {
+  name: string;
+  total: number;
 }
 
 // Hooks Props

@@ -19,15 +19,17 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { ProductFormProps } from "@/lib/interface";
+import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   name: z.string().min(1),
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
+  description: z.string().min(1).max(2000),
   categoryId: z.string().min(1),
-  colorId: z.string().min(1),
-  sizeId: z.string().min(1),
+  colorId: z.string().optional(),
+  sizeId: z.string().optional(),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
 });
@@ -52,6 +54,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
           name: "",
           images: [],
           price: 0,
+          description: "",
           categoryId: "",
           colorId: "",
           sizeId: "",
@@ -175,7 +178,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
                       <SelectContent>
                         {categories.map((category) => (
                           <SelectItem key={category.id} value={category.id}>
-                            {category.name}
+                            {category!.parent!.name + "-" + category.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -186,6 +189,27 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
               )}
             />
             <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <textarea
+                      className="rounded-md border p-4"
+                      disabled={loading}
+                      placeholder="color, size, features..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <span className={cn("text-sm ", field.value.length > 2000 ? "text-red-500" : "text-neutral-500")}>
+                    {field.value.length}/2000
+                  </span>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* <FormField
               control={form.control}
               name="colorId"
               render={({ field }) => (
@@ -215,8 +239,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
                   <FormMessage />
                 </FormItem>
               )}
-            />
-            <FormField
+            /> */}
+            {/* <FormField
               control={form.control}
               name="sizeId"
               render={({ field }) => (
@@ -246,7 +270,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name="isFeatured"

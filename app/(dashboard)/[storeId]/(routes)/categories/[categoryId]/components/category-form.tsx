@@ -21,10 +21,11 @@ import { CategoryFormProps } from "@/lib/interface";
 
 const formSchema = z.object({
   name: z.string().min(1),
-  billboardId: z.string().min(1),
+  billboardId: z.string().nullable(),
+  parentId: z.string().nullable(),
 });
 
-export const CategoryForm: React.FC<CategoryFormProps> = ({ billboards, initialData }) => {
+export const CategoryForm: React.FC<CategoryFormProps> = ({ billboards, initialData, parentCategories }) => {
   const params = useParams();
   const router = useRouter();
 
@@ -38,7 +39,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ billboards, initialD
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || { name: "", billboardId: "" },
+    defaultValues: initialData || { name: "", billboardId: "", parentId: "" },
   });
 
   // create or update category
@@ -106,6 +107,41 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ billboards, initialD
             />
             <FormField
               control={form.control}
+              name="parentId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Parent Category</FormLabel>
+                  <FormControl>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value ? field.value : undefined}
+                      defaultValue={field.value ? field.value : undefined}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value ? field.value : undefined}
+                            placeholder="Select a parent category"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value=" ">No Parrent</SelectItem>
+                        {parentCategories.map((pcategory) => (
+                          <SelectItem key={pcategory.id} value={pcategory.id}>
+                            {pcategory.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="billboardId"
               render={({ field }) => (
                 <FormItem>
@@ -114,15 +150,19 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ billboards, initialD
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
+                      value={field.value ? field.value : undefined}
+                      defaultValue={field.value ? field.value : undefined}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue defaultValue={field.value} placeholder="Select a billboard" />
+                          <SelectValue
+                            defaultValue={field.value ? field.value : undefined}
+                            placeholder="Select a billboard"
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
+                        <SelectItem value=" ">No Billboard</SelectItem>
                         {billboards.map((billboard) => (
                           <SelectItem key={billboard.id} value={billboard.id}>
                             {billboard.label}

@@ -8,7 +8,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, billboardId } = body;
+    const { name, billboardId, parentId } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -18,9 +18,9 @@ export async function POST(req: Request, { params }: { params: { storeId: string
       return new NextResponse("Name is required", { status: 400 });
     }
 
-    if (!billboardId) {
-      return new NextResponse("Billboard id is required", { status: 400 });
-    }
+    // if (!billboardId) {
+    //   return new NextResponse("Billboard id is required", { status: 400 });
+    // }
 
     if (!params.storeId) {
       return new NextResponse("Store id is required", { status: 400 });
@@ -37,10 +37,27 @@ export async function POST(req: Request, { params }: { params: { storeId: string
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
+    // avoid generating duplicate categories with same name and same parent
+    const duplicateCheck = await prismadb.category.findFirst({
+      where: {
+        AND: [
+          {
+            name,
+            parentId,
+          },
+        ],
+      },
+    });
+
+    if (duplicateCheck) {
+      return new NextResponse("Duplicate category.", { status: 400 });
+    }
+
     const category = await prismadb.category.create({
       data: {
         name,
         billboardId,
+        parentId,
         storeId: params.storeId,
       },
     });
@@ -61,6 +78,10 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
     const categories = await prismadb.category.findMany({
       where: {
         storeId: params.storeId,
+        parentId: " ",
+      },
+      include: {
+        children: true,
       },
     });
 

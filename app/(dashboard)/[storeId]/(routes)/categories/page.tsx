@@ -12,6 +12,7 @@ const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
     },
     include: {
       billboard: true,
+      parent: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -21,7 +22,8 @@ const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
   const formattedCategories: CategoryColumn[] = categories.map((item) => ({
     id: item.id,
     name: item.name,
-    billboardLabel: item.billboard.label,
+    parentName: item?.parent ? item.parent?.name : null,
+    billboardLabel: item?.billboard ? item.billboard?.label : null,
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
   }));
 
